@@ -28,40 +28,25 @@ form.on("submit",runEnter);
 function runEnter() {
   d3.event.preventDefault();
   var inputElement = document.getElementById("datetime");
-  var inputValue = inputElement.property("value");
-
-  console.log(inputValue);
-  console.log(tableData);
-
+  var inputValue = inputElement.value;
   var filteredData = tableData.filter(sighting => sighting.datetime === inputValue);
-  console.log(filteredData);
-}
+  // console.log(filteredData); // returns each sighting as an object
+  filteredData.forEach((instance) => {
+    // console.log(instance); returns each sighting object
+    newInfo = Object.entries(instance);
+    // console.log(newInfo)  // returns each object as a list of lists where each list is a key/value pair. 
+      //i thought this was the way to go based on intro to javascript/3/activities/02, but i can't get it to work past here
+    newInfo.forEach(([datetime, city, country, shape, durationMinutes, comments]) => {
+      var row = tbody.append("tr");
+      row.append("td").text(datetime); // using console.log() for each of the items in this section shows that they're calling a bunch of stuff,
+        // not just one cell's worth of text
+      row.append("td").text(city);
+      row.append("td").text(country);
+      row.append("td").text(shape);
+      row.append("td").text(durationMinutes);
+      row.append("td").text(comments);
+      });
+    }
+  )};
 
-
-
-// var filteredData = []
-// // Complete the event handler function for the form
-// function runEnter() {
-//     // Prevent the page from refreshing
-//     d3.event.preventDefault();
-//     // Select the input element and get the raw HTML node
-//     var inputElement = d3.select("#datetime");
-//     // Get the value property of the input element
-//     var inputValue = inputElement.property("value");
-//     data.forEach((instance) => {
-//       Object.entries(instance).forEach(([key, value]) => {
-//         if (instance.datetime === inputValue) {
-//           data.forEach((i) => {
-//             console.log(instance);
-//             var row = tbody.append("tr");
-//             Object.entries(innerWidth).forEach(([key, value]) => {
-//               var cell = row.append("td");
-//               cell.text(value);
-//           });
-//         }
-//       )};
-//     }
-//   )}
-// )};
-
-// // filtering works correctly, need to append to html table
+  // after running this code, it appends a bunch of rows of key/value pairs at the bottom of the existing table.
